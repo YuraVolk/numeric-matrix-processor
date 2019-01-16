@@ -43,6 +43,22 @@ public class Main {
 	       printMatrix(c);
 	}
 	
+	public static void transposeMatrix(int[][]a) {
+		int n = a.length;
+		int m = a[0].length;
+		
+		int tr[][] = new int[n][m];
+	     
+	    for (int c = 0; c < m; c++) {
+	         for (int d = 0; d < n; d++) {          
+	            tr[d][c] = a[c][d];
+	         }
+	    }
+	    
+	    printMatrix(tr);
+	    
+	}
+	
 	public static int[][] fillMatrix(int rows, int columns) {
 		Scanner sc = new Scanner(System.in);
 	    
@@ -67,18 +83,20 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
+		
+		
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
 		int rows;
 		int columns;
-
+		
 		while (true) {
 			System.out.println("1. Add matrices\r\n" + 
 					"2. Multiply matrix to a constant\r\n" + 
 					"3. Multiply matrices\r\n" + 
-					"0. Exit\r\n" + 
-					"Your choice: ");
+					"4. Transpose matrix\r\n" + 
+					"0. Exit");
 			
 			int choice = sc.nextInt();
 			
@@ -98,6 +116,8 @@ public class Main {
 					System.out.println("Enter second matrix: ");
 					int[][] mat2 = fillMatrix(rows,columns);
 					
+					System.out.println("The result is: ");
+					
 					sumUpMatrix(mat1,mat2,rows,columns);
 					
 					break;
@@ -114,7 +134,11 @@ public class Main {
 					
 				    int n = sc.nextInt();
 				    
+				    System.out.println("The result is: ");
+				    
 				    multiplyMatrix(matMultiply,rows,columns,n);
+				    
+				    break;
 				case 3:
 					System.out.println("Enter size of first matrix: ");
 					rows = sc.nextInt();
@@ -130,6 +154,24 @@ public class Main {
 					
 				    System.out.println("The multiplication result is:");
 					multiplyMatrices(mat1p,mat2p);
+					
+					break;
+				case 4:
+					System.out.println("Enter matrix size: ");
+					rows = sc.nextInt();
+					columns = sc.nextInt();
+					
+					System.out.println("Enter matrix: ");
+					
+					int[][] matTr = fillMatrix(rows,columns);
+					
+					System.out.println("The result is: ");
+
+				    transposeMatrix(matTr);
+				    
+				    break;
+				default:
+					System.exit(0);
 			}
 			
 			
