@@ -3,7 +3,7 @@ package matrix;
 import java.util.*;
 
 public class Main {
-   public static void sumUpMatrix(int[][] firstMatrix,int[][] secondMatrix,int rows, int columns) {
+  public static void sumUpMatrix(int[][] firstMatrix,int[][] secondMatrix,int rows, int columns) {
    
 	    int[][] sum = new int[rows][columns];
         for(int i = 0; i < rows; i++) {
