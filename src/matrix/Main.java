@@ -3,7 +3,92 @@ package matrix;
 import java.util.*;
 
 public class Main {
-  static public int determinantOfMatrix(int A[][],int N) {
+  public static void invertMatrix(double a[][]) 
+    {
+        int n = a.length;
+        double x[][] = new double[n][n];
+        double b[][] = new double[n][n];
+        int index[] = new int[n];
+        for (int i=0; i<n; ++i) {
+            b[i][i] = 1;
+        }
+ 
+        getGaussian(a, index);
+ 
+        for (int i=0; i<n-1; ++i)
+            for (int j=i+1; j<n; ++j)
+                for (int k=0; k<n; ++k)
+                    b[index[j]][k] -= a[index[j]][i]*b[index[i]][k];
+        
+        for (int i=0; i<n; ++i) {
+            x[n-1][i] = b[index[n-1]][i]/a[index[n-1]][n-1];
+            for (int j=n-2; j>=0; --j) {
+                x[j][i] = b[index[j]][i];
+                for (int k=j+1; k<n; ++k) {
+                    x[j][i] -= a[index[j]][k]*x[k][i];
+                }
+                x[j][i] /= a[index[j]][j];
+            }
+        }
+
+        for (int i=0; i<n; ++i) 
+        {
+            for (int j=0; j<n; ++j)
+            {
+            	System.out.print(x[i][j]+" ");
+            }
+            System.out.println();
+        }
+        
+    }
+	
+	static private void getGaussian(double a[][], int index[]) {
+        int n = index.length;
+        double c[] = new double[n];
+ 
+        for (int i=0; i<n; ++i) 
+            index[i] = i;
+
+        for (int i=0; i<n; ++i) 
+        {
+            double c1 = 0;
+            for (int j=0; j<n; ++j) 
+            {
+                double c0 = Math.abs(a[i][j]);
+                if (c0 > c1) c1 = c0;
+            }
+            c[i] = c1;
+        }
+ 
+        int k = 0;
+        for (int j=0; j<n-1; ++j) 
+        {
+            double pi1 = 0;
+            for (int i=j; i<n; ++i) 
+            {
+                double pi0 = Math.abs(a[index[i]][j]);
+                pi0 /= c[index[i]];
+                if (pi0 > pi1) 
+                {
+                    pi1 = pi0;
+                    k = i;
+                }
+            }
+ 
+            int itmp = index[j];
+            index[j] = index[k];
+            index[k] = itmp;
+            for (int i=j+1; i<n; ++i) 	
+            {
+                double pj = a[index[i]][j]/a[index[j]][j];
+                a[index[i]][j] = pj;
+                for (int l=j+1; l<n; ++l)
+                    a[index[i]][l] -= pj*a[index[j]][l];
+            }
+        }
+    }
+	
+	static public int determinantOfMatrix(int A[][],int N) {
         int det=0;
         if(N == 1) {
             det = A[0][0];
@@ -108,7 +193,7 @@ public class Main {
 	public static void printMatrix(int[][] pr) {
 		for(int[] row : pr) {
             for (int column : row) {
-                System.out.print(column + " ");
+                System.out.print(column);
             }
             System.out.println();
         }
@@ -129,6 +214,7 @@ public class Main {
 					"3. Multiply matrices\r\n" + 
 					"4. Transpose matrix\r\n" + 
 					"5. Calculate a determinant\r\n" + 
+					"6. Inverse matrix\r\n" + 
 					"0. Exit");
 			
 			int choice = sc.nextInt();
@@ -216,6 +302,25 @@ public class Main {
 					
 					System.out.println(determinantOfMatrix(matDet, rows));
 					break;
+				case 6:
+					System.out.println("Enter matrix size: ");
+					
+					rows = sc.nextInt();
+					columns = sc.nextInt();
+					
+					double[][] matrixInv = new double[rows][columns];
+					
+					System.out.println("Enter matrix: ");
+					
+					for(int row=0;row<rows;row++){
+						for(int col=0;col<columns;col++){
+							matrixInv[row][col]=sc.nextDouble();
+					    }
+					}
+					
+					System.out.println("The result is: ");
+					
+					invertMatrix(matrixInv);
 				default:
 					System.exit(0);
 			}
